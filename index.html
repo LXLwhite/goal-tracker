@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- htmlaunch:enhanced:v2 -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22hsl(8%2C72%25%2C58%25)%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22hsl(38%2C72%25%2C44%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2246%22%20text-anchor%3D%22middle%22%20font-family%3D%22ui-sans-serif%2Csystem-ui%2C-apple-system%2CSegoe%20UI%2Csans-serif%22%20font-size%3D%2238%22%20font-weight%3D%22800%22%20fill%3D%22%23ffffff%22%3EG%3C%2Ftext%3E%3C%2Fsvg%3E">
+<meta name="description" content="学习目标管理台 | deployed with HTMLaunch">
+<link rel="canonical" href="https://LXLwhite.github.io/goal-tracker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="学习目标管理台">
+<meta property="og:title" content="学习目标管理台">
+<meta property="og:description" content="学习目标管理台 | deployed with HTMLaunch">
+<meta property="og:url" content="https://LXLwhite.github.io/goal-tracker/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s.wordpress.com/mshots/v1/https%3A%2F%2FLXLwhite.github.io%2Fgoal-tracker%2F?w=1200&h=630">
+<meta property="og:image:alt" content="学习目标管理台">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="学习目标管理台">
+<meta name="twitter:description" content="学习目标管理台 | deployed with HTMLaunch">
+<meta name="twitter:image" content="https://s.wordpress.com/mshots/v1/https%3A%2F%2FLXLwhite.github.io%2Fgoal-tracker%2F?w=1200&h=630">
+<meta name="twitter:image:alt" content="学习目标管理台">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#7c3aed">
+<title>学习目标管理台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f4f5f9;--surface:#fff;--surface2:#f8f9fc;--surface3:#f1f2f7;
+  --primary:#7c3aed;--primary-l:#a855f7;--grad:linear-gradient(135deg,#7c3aed,#a855f7);
+  --success:#10b981;--danger:#ef4444;--warning:#f59e0b;
+  --text:#1e293b;--text2:#64748b;--text3:#94a3b8;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --radius:14px;--radius-sm:8px;
+  --shadow:0 1px 3px rgba(0,0,0,.06);--shadow-md:0 4px 16px rgba(0,0,0,.08);
+  --sidebar-w:220px;
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+.hidden{display:none!important}
+button{cursor:pointer;border:none;background:none;font-family:inherit;font-size:inherit;color:inherit}
+input,textarea,select{font-family:inherit;font-size:16px;outline:none}
+a{color:var(--primary);text-decoration:none}
+
+/* === LAYOUT === */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 0;z-index:100}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:0 20px 20px;font-weight:700;font-size:16px;color:var(--primary)}
+.sidebar-logo svg{flex-shrink:0}
+.sidebar-nav{flex:1;display:flex;flex-direction:column;gap:4px;padding:0 12px}
+.topnav{position:fixed;top:0;left:0;right:0;height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;z-index:100}
+.topnav-logo{font-weight:700;font-size:15px;color:var(--primary);margin-right:auto}
+.topnav-tabs{display:flex;gap:4px}
+.bottomnav{position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.main{min-height:100vh;padding:12px 12px 80px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--radius-sm);color:var(--text2);font-size:14px;font-weight:500;transition:all .15s;white-space:nowrap;flex:1;justify-content:center}
+.sidebar .nav-item{flex:none;justify-content:flex-start}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--grad);color:#fff}
+.sidebar .nav-item.active{color:#fff}
+.nav-item svg{flex-shrink:0}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* === TYPOGRAPHY === */
+h1{font-size:22px;font-weight:700}
+h2{font-size:17px;font-weight:600;margin-bottom:12px}
+h3{font-size:15px;font-weight:600}
+h4{font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+.section-title{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.section-title h2{margin:0}
+.section-title .count{background:var(--surface3);color:var(--text2);font-size:12px;padding:2px 8px;border-radius:10px;font-weight:600}
+
+/* === BUTTONS === */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;transition:all .15s;white-space:nowrap}
+.btn svg{flex-shrink:0}
+.btn-primary{background:var(--grad);color:#fff}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{opacity:.9}
+.btn-ghost{background:var(--surface2);color:var(--text2)}
+.btn-ghost:hover{background:var(--surface3);color:var(--text)}
+.btn-outline{border:1px solid var(--border2);color:var(--text)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+.btn-sm{padding:6px 12px;font-size:13px}
+.btn-lg{padding:12px 24px;font-size:15px}
+.btn-block{width:100%}
+.btn-icon{padding:6px;border-radius:6px;color:var(--text3);display:inline-flex}
+.btn-icon:hover{background:var(--surface2);color:var(--text)}
+
+/* === CARDS === */
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:12px}
+.goal-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:12px;border-left:4px solid var(--primary);transition:box-shadow .2s}
+.goal-card:hover{box-shadow:var(--shadow-md)}
+.gc-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.gc-title{font-size:16px;font-weight:700;flex:1}
+.gc-actions{display:flex;gap:2px;flex-shrink:0}
+.gc-stats{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;font-size:13px;color:var(--text2)}
+.gc-stat{display:flex;align-items:center;gap:4px}
+.gc-stat strong{color:var(--text);font-weight:700}
+.gc-stat .ahead{color:var(--success)}
+.gc-stat .behind{color:var(--danger)}
+.gc-bar{height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;margin-bottom:10px}
+.gc-bar-fill{height:100%;border-radius:3px;transition:width .4s ease}
+.gc-plan{background:var(--surface2);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:10px;font-size:13px}
+.gc-plan-row{display:flex;gap:6px;margin-bottom:4px}
+.gc-plan-row:last-child{margin-bottom:0}
+.gc-plan-label{color:var(--text3);flex-shrink:0;font-weight:600}
+.gc-plan-text{color:var(--text2)}
+.gc-checkin{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.gc-checkin .field{display:flex;flex-direction:column;gap:4px}
+.gc-checkin label{font-size:11px;color:var(--text3);font-weight:600}
+.gc-checkin input{width:90px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:16px;font-weight:600}
+.gc-checkin input:focus{border-color:var(--primary)}
+.gc-today-badge{display:inline-flex;align-items:center;gap:4px;background:var(--surface3);color:var(--text2);font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px}
+.gc-today-badge.done{background:#dcfce7;color:var(--success)}
+
+/* === ALERT CARDS === */
+.alert-card{border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px}
+.alert-card.red{background:#fef2f2;border-left:4px solid var(--danger)}
+.alert-card.yellow{background:#fffbeb;border-left:4px solid var(--warning)}
+.alert-card.green{background:#ecfdf5;border-left:4px solid var(--success)}
+.alert-icon{flex-shrink:0;margin-top:2px}
+.alert-body{flex:1;min-width:0}
+.alert-title{font-weight:700;font-size:14px;margin-bottom:2px}
+.alert-desc{font-size:13px;color:var(--text2);margin-bottom:8px}
+.alert-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* === PROGRESS RING === */
+.ring-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.ring-center{position:absolute;text-align:center}
+.ring-center .pct{font-size:20px;font-weight:700;line-height:1}
+.ring-center .lbl{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* === KANBAN === */
+.kanban-grid{display:grid;gap:16px}
+.kanban-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;border-top:4px solid var(--primary)}
+.kc-header{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.kc-info{flex:1;min-width:0}
+.kc-name{font-size:17px;font-weight:700;margin-bottom:6px}
+.kc-stats{display:flex;gap:16px;flex-wrap:wrap}
+.kc-stat{font-size:13px}
+.kc-stat .lbl{color:var(--text3);font-size:11px;display:block}
+.kc-stat .val{font-weight:700;font-size:16px}
+.kc-plan{background:var(--surface2);border-radius:var(--radius-sm);padding:10px 14px;margin:10px 0;font-size:13px}
+.kc-records{margin-top:12px}
+.record-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.record-item:last-child{border-bottom:none}
+.record-date{color:var(--text2);font-weight:600;width:90px;flex-shrink:0}
+.record-amount{font-weight:700}
+.record-minutes{color:var(--text3);font-size:12px}
+.record-tag{background:var(--warning);color:#fff;font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600}
+
+/* === CHART === */
+.chart-section{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-top:16px}
+.chart-section h3{margin-bottom:12px}
+.chart-svg{width:100%;overflow:visible}
+.chart-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px}
+.chart-legend-item{display:flex;align-items:center;gap:4px}
+.chart-legend-dot{width:10px;height:10px;border-radius:2px}
+
+/* === WEEKLY === */
+.weekly-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.weekly-nav h2{margin:0}
+.weekly-table{width:100%;border-collapse:collapse;font-size:13px;background:var(--surface);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.weekly-table th,.weekly-table td{padding:8px 6px;text-align:center;border-bottom:1px solid var(--border)}
+.weekly-table th{background:var(--surface2);font-weight:600;color:var(--text2);font-size:12px}
+.weekly-table td:first-child,.weekly-table th:first-child{text-align:left;padding-left:12px;font-weight:600}
+.weekly-table .total-row{background:var(--surface2);font-weight:700}
+.weekly-table .today-col{background:#faf5ff}
+.weekly-summary{display:grid;gap:12px;margin-top:16px}
+.ws-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;display:flex;align-items:center;gap:12px;border-left:4px solid var(--primary)}
+.ws-name{font-weight:700;font-size:14px;width:100px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ws-stats{flex:1;display:flex;gap:16px;flex-wrap:wrap;font-size:13px}
+.ws-stat .lbl{color:var(--text3);font-size:11px}
+.ws-stat .val{font-weight:700}
+.ws-compare{font-size:12px;font-weight:600;flex-shrink:0}
+.ws-compare.up{color:var(--success)}
+.ws-compare.down{color:var(--danger)}
+.ws-compare.flat{color:var(--text3)}
+.weekly-notes{display:grid;gap:12px;margin-top:16px}
+.note-group{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}
+.note-group label{display:block;font-weight:700;font-size:13px;margin-bottom:6px;color:var(--text)}
+.note-group textarea{width:100%;min-height:60px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;font-size:14px;resize:vertical;background:var(--surface2)}
+.note-group textarea:focus{border-color:var(--primary);background:var(--surface)}
+.weekly-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+
+/* === SETTINGS === */
+.settings-section{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:16px}
+.settings-section h3{margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.settings-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.settings-row:last-child{margin-bottom:0}
+.settings-desc{font-size:13px;color:var(--text2);margin-bottom:10px}
+.settings-input{padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:16px;width:120px}
+.color-swatches{display:flex;gap:8px;flex-wrap:wrap}
+.color-swatch{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:border-color .15s}
+.color-swatch.selected{border-color:var(--text)}
+.pwa-steps{counter-reset:step;list-style:none;padding:0}
+.pwa-steps li{padding:10px 0 10px 40px;position:relative;font-size:14px;color:var(--text2);border-bottom:1px solid var(--border)}
+.pwa-steps li:last-child{border-bottom:none}
+.pwa-steps li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:8px;width:26px;height:26px;background:var(--grad);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+
+/* === MODAL === */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal-box{background:var(--surface);border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,.2);max-width:480px;width:100%;max-height:90vh;overflow-y:auto;position:relative;z-index:1}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.modal-header h3{font-size:17px}
+.modal-body{padding:20px}
+.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:var(--text)}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:16px;background:var(--surface)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary)}
+.form-row{display:flex;gap:12px}
+.form-row .form-group{flex:1}
+.form-hint{font-size:12px;color:var(--text3);margin-top:4px}
+
+/* === TOAST === */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;z-index:300;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+@media(min-width:768px){.toast{bottom:24px}}
+
+/* === CELEBRATION === */
+.celebration{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden}
+.celebration span{position:absolute;top:-30px;width:8px;height:24px;border-radius:2px;animation:fall 2.5s ease-in forwards}
+@keyframes fall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
+
+/* === BACKUP BANNER === */
+.backup-banner{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:1px solid #bae6fd;border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.backup-banner .bb-icon{flex-shrink:0}
+.backup-banner .bb-text{flex:1;font-size:13px;color:var(--text)}
+.backup-banner .bb-text strong{color:var(--primary)}
+
+/* === EMPTY STATE === */
+.empty-state{text-align:center;padding:48px 20px;color:var(--text3)}
+.empty-state svg{margin-bottom:12px;opacity:.4}
+.empty-state p{font-size:14px;margin-bottom:16px}
+
+/* === MISC === */
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.tag-sample{background:#ede9fe;color:var(--primary)}
+.tag-overdue{background:#fee2e2;color:var(--danger)}
+.plan-modal-stat{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:14px}
+.plan-modal-stat:last-child{border-bottom:none}
+.plan-modal-stat .lbl{color:var(--text2)}
+.plan-modal-stat .val{font-weight:700}
+.report-text{background:var(--surface2);border-radius:var(--radius-sm);padding:14px;font-size:13px;line-height:1.8;white-space:pre-wrap;font-family:monospace;max-height:400px;overflow-y:auto}
+
+/* === RESPONSIVE === */
+@media(min-width:768px){
+  .main{padding:16px 16px 16px}
+  .kanban-grid{grid-template-columns:1fr 1fr}
+  .weekly-notes{grid-template-columns:1fr 1fr}
+}
+@media(min-width:768px) and (max-width:1023px){
+  .sidebar{display:none}.bottomnav{display:none}
+  .topnav{display:flex}
+  .main{padding-top:72px}
+  .kanban-grid{grid-template-columns:1fr}
+}
+@media(min-width:1024px){
+  .sidebar{display:flex}.topnav{display:none}.bottomnav{display:none}
+  .main{padding:24px 24px 24px;margin-left:var(--sidebar-w)}
+  .kanban-grid{grid-template-columns:1fr 1fr}
+  .weekly-notes{grid-template-columns:1fr 1fr 1fr 1fr}
+  .today-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .today-grid .goal-card{margin-bottom:0}
+}
+@media(max-width:767px){
+  .sidebar{display:none}.topnav{display:none}
+  .bottomnav{display:flex}
+  .main{padding:12px 12px 76px}
+  .gc-checkin input{width:80px}
+  .form-row{flex-direction:column}
+  .kanban-grid{grid-template-columns:1fr}
+  .weekly-notes{grid-template-columns:1fr}
+  .weekly-table{font-size:11px}
+  .weekly-table th,.weekly-table td{padding:6px 3px}
+  .modal-overlay{padding:8px}
+  .modal-box{max-height:94vh;-webkit-overflow-scrolling:touch}
+  .modal-body{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<div id="backupBanner" class="backup-banner hidden"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    <span>学习目标管理台</span>
+  </div>
+  <nav class="sidebar-nav" id="sidebarNav"></nav>
+</aside>
+
+<nav class="topnav" id="topnav">
+  <div class="topnav-logo">学习目标管理台</div>
+  <div class="topnav-tabs" id="topnavTabs"></div>
+</nav>
+
+<main class="main">
+  <section id="tab-today" class="tab-content active"><div id="todayContent"></div></section>
+  <section id="tab-kanban" class="tab-content"><div id="kanbanContent"></div></section>
+  <section id="tab-weekly" class="tab-content"><div id="weeklyContent"></div></section>
+  <section id="tab-settings" class="tab-content"><div id="settingsContent"></div></section>
+</main>
+
+<nav class="bottomnav" id="bottomnav"></nav>
+
+<div id="modalOverlay" class="modal-overlay hidden" onclick="if(event.target===this)hideModal()">
+  <div id="modalBox" class="modal-box hidden"></div>
+</div>
+<div id="celebration" class="celebration hidden"></div>
+<div id="toast" class="toast hidden"></div>
+<input type="file" id="importFile" accept=".json" class="hidden">
+
+<script>
+// ===== CONSTANTS =====
+const STORAGE_KEY='wb_lgtracker_v1';
+const SCHEMA_VERSION=1;
+const COLOR_PRESETS=['#7c3aed','#0d9488','#2563eb','#db2777','#ea580c','#4f46e5'];
+const WEEK_NAMES=['周一','周二','周三','周四','周五','周六','周日'];
+
+let state={goals:[],weeklyReports:{},schemaVersion:SCHEMA_VERSION};
+let currentTab='today';
+let weeklyOffset=0;
+let editingGoalId=null;
+let checkinGoalId=null;
+let deleteTarget=null;
+
+// ===== STORAGE =====
+function loadState(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw){state={goals:[],weeklyReports:{},schemaVersion:SCHEMA_VERSION,sampleLoaded:false};loadPresetData();return;}
+    state=JSON.parse(raw);
+    if(!state.goals)state.goals=[];
+    if(!state.weeklyReports)state.weeklyReports={};
+    if(!state.schemaVersion)state.schemaVersion=1;
+  }catch(e){
+    state={goals:[],weeklyReports:{},schemaVersion:SCHEMA_VERSION};
+  }
+}
+function saveState(){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+}
+function migrateState(){
+  if(!state.schemaVersion||state.schemaVersion<1){
+    state.goals.forEach(g=>{
+      if(!g.records)g.records=[];
+      g.records.forEach(r=>{if(r.isBackfill===undefined)r.isBackfill=false;});
+    });
+    state.schemaVersion=1;
+    saveState();
+  }
+}
+
+// ===== DATE UTILS =====
+function pad2(n){return n<10?'0'+n:''+n;}
+function fmtDate(d){if(typeof d==='string')return d;return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function parseDate(s){const p=s.split('-');return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));}
+function todayStr(){return fmtDate(new Date());}
+function todayDate(){const d=new Date();d.setHours(0,0,0,0);return d;}
+function addDays(dateStr,n){const d=parseDate(dateStr);d.setDate(d.getDate()+n);return fmtDate(d);}
+function daysBetween(s1,s2){const d1=parseDate(s1),d2=parseDate(s2);return Math.round((d2-d1)/86400000);}
+function getWeekStart(dateStr){const d=parseDate(dateStr);const day=d.getDay();const diff=day===0?-6:1-day;d.setDate(d.getDate()+diff);return fmtDate(d);}
+function getWeekEnd(dateStr){return addDays(getWeekStart(dateStr),6);}
+function getWeekRange(dateStr){return{start:getWeekStart(dateStr),end:getWeekEnd(dateStr)};}
+function isSameWeek(s1,s2){return getWeekStart(s1)===getWeekStart(s2);}
+function fmtDateShort(s){const d=parseDate(s);return(d.getMonth()+1)+'月'+d.getDate()+'日';}
+function fmtDateMD(s){const d=parseDate(s);return pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function getDayOfWeek(dateStr){const d=parseDate(dateStr);const day=d.getDay();return day===0?6:day-1;}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5);}
+
+// ===== SVG ICONS =====
+const ICONS={
+  today:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M9 16l2 2 4-4"/></svg>',
+  kanban:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>',
+  weekly:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="8"/><rect x="12" y="6" width="3" height="12"/><rect x="17" y="13" width="3" height="5"/></svg>',
+  settings:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+  check:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>',
+  flame:'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+  target:'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+  alert:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>',
+  info:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>',
+  download:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>',
+  upload:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>',
+  calendar:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  chevronL:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+  chevronR:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
+  copy:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+  phone:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>',
+  layers:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>',
+  close:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+  save:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>',
+  trend:'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>',
+};
+
+// ===== UTILITIES =====
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.remove('hidden');setTimeout(()=>t.classList.add('hidden'),2200);}
+function getTotalRecords(){return state.goals.reduce((s,g)=>s+(g.records?g.records.length:0),0);}
+function getCompleted(goal){if(!goal.records)return 0;return goal.records.reduce((s,r)=>s+r.amount,0);}
+function getRemaining(goal){return Math.max(0,goal.total-getCompleted(goal));}
+function getPercent(goal){return Math.min(100,(getCompleted(goal)/goal.total*100));}
+function escapeHtml(s){if(!s)return'';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ===== GOAL LOGIC =====
+
+function getDaysUntilDeadline(goal){
+  const today=todayStr();
+  return daysBetween(today,goal.deadline);
+}
+function isOverdue(goal){
+  return getDaysUntilDeadline(goal)<0&&getRemaining(goal)>0;
+}
+function getDaysOverdue(goal){
+  return Math.abs(getDaysUntilDeadline(goal));
+}
+function isCompleted(goal){
+  return getCompleted(goal)>=goal.total;
+}
+
+function getSuggestedAmount(goal){
+  const remaining=getRemaining(goal);
+  if(remaining<=0)return 0;
+  const days=getDaysUntilDeadline(goal);
+  if(days<=0)return remaining;
+  return Math.ceil(remaining/days);
+}
+
+// streak: weekly rest day (1st miss per week doesn't break)
+function getStreak(goal){
+  const records=goal.records||[];
+  if(records.length===0)return 0;
+  const recordDates=new Set(records.map(r=>r.date));
+  const today=todayStr();
+  let checkDate=parseDate(today);
+  // if today has no record, start from yesterday (today not over yet)
+  if(!recordDates.has(today)){
+    checkDate.setDate(checkDate.getDate()-1);
+  }
+  let streak=0;
+  const restUsed={};
+  for(let i=0;i<365;i++){
+    const ds=fmtDate(checkDate);
+    if(recordDates.has(ds)){
+      streak++;
+    }else{
+      const ws=getWeekStart(ds);
+      if(!restUsed[ws]){
+        restUsed[ws]=true;
+      }else{
+        break;
+      }
+    }
+    checkDate.setDate(checkDate.getDate()-1);
+  }
+  return streak;
+}
+
+// estimated completion: last 7 days avg speed
+function getEstimatedCompletion(goal){
+  if(isCompleted(goal))return{status:'done'};
+  const records=goal.records||[];
+  const today=todayStr();
+  const sevenAgo=addDays(today,-7);
+  const recent=records.filter(r=>r.date>=sevenAgo&&r.date<=today);
+  const uniqueDays=new Set(recent.map(r=>r.date));
+  if(uniqueDays.size<3)return{status:'insufficient'};
+  const totalAmount=recent.reduce((s,r)=>s+r.amount,0);
+  const dailyAvg=totalAmount/7;
+  if(dailyAvg<=0)return{status:'insufficient'};
+  const remaining=getRemaining(goal);
+  const daysNeeded=Math.ceil(remaining/dailyAvg);
+  const estDate=addDays(today,daysNeeded);
+  return{status:'ok',date:estDate,dailyAvg:dailyAvg};
+}
+
+function getEstDisplay(goal){
+  const est=getEstimatedCompletion(goal);
+  if(est.status==='done')return{text:'已达成',cls:'ahead'};
+  if(est.status==='insufficient')return{text:'暂无推算',cls:''};
+  const daysDiff=daysBetween(goal.deadline,est.date);
+  if(daysDiff>=0){
+    return{text:'预计'+fmtDateShort(est.date)+'（拖后'+daysDiff+'天）',cls:'behind'};
+  }else{
+    return{text:'预计'+fmtDateShort(est.date)+'（提前'+Math.abs(daysDiff)+'天）',cls:'ahead'};
+  }
+}
+
+// yesterday miss status: 'checked'|'rest'|'broken'|'none'
+function getYesterdayStatus(goal){
+  const records=goal.records||[];
+  const recordDates=new Set(records.map(r=>r.date));
+  const today=todayStr();
+  const yesterday=addDays(today,-1);
+  if(recordDates.has(yesterday))return'checked';
+  // yesterday missed - check if streak is alive
+  const streak=getStreak(goal);
+  if(streak>0){
+    // streak still alive = rest day was used
+    return'rest';
+  }
+  // streak broken
+  // check if yesterday's week has rest day still available
+  // if the streak broke at yesterday (second miss this week), it's 'broken'
+  // if streak broke before yesterday, also 'broken'
+  return'broken';
+}
+
+// today's check-in status
+function hasTodayRecord(goal){
+  const today=todayStr();
+  return(goal.records||[]).some(r=>r.date===today);
+}
+function getTodayRecords(goal){
+  const today=todayStr();
+  return(goal.records||[]).filter(r=>r.date===today);
+}
+
+// week data for weekly report
+function getWeekRecords(goal,weekStartStr){
+  const weekEnd=addDays(weekStartStr,6);
+  return(goal.records||[]).filter(r=>r.date>=weekStartStr&&r.date<=weekEnd);
+}
+function getWeekStats(goal,weekStartStr){
+  const recs=getWeekRecords(goal,weekStartStr);
+  const amount=recs.reduce((s,r)=>s+r.amount,0);
+  const minutes=recs.reduce((s,r)=>s+(r.minutes||0),0);
+  const days=new Set(recs.map(r=>r.date)).size;
+  return{amount,minutes,days,recs};
+}
+
+// last 7 days speed (for chart and estimation)
+function getLast7DaysData(goal){
+  const today=todayStr();
+  const result={};
+  for(let i=0;i<7;i++){
+    const ds=addDays(today,-i);
+    result[ds]={amount:0,minutes:0};
+  }
+  (goal.records||[]).forEach(r=>{
+    if(result[r.date]){
+      result[r.date].amount+=r.amount;
+      result[r.date].minutes+=r.minutes||0;
+    }
+  });
+  return result;
+}
+
+// last 14 days minutes for chart
+function getLast14DaysMinutes(){
+  const today=todayStr();
+  const days=[];
+  for(let i=13;i>=0;i--){
+    const ds=addDays(today,-i);
+    days.push({date:ds,goals:{}});
+  }
+  state.goals.forEach(g=>{
+    (g.records||[]).forEach(r=>{
+      if(r.minutes&&r.minutes>0){
+        const day=days.find(d=>d.date===r.date);
+        if(day){
+          day.goals[g.id]=(day.goals[g.id]||0)+r.minutes;
+        }
+      }
+    });
+  });
+  return days;
+}
+
+// ===== ACTIONS =====
+function addGoal(data){
+  const goal={
+    id:uid(),
+    name:data.name,
+    unit:data.unit,
+    total:parseInt(data.total),
+    deadline:data.deadline,
+    color:data.color||COLOR_PRESETS[0],
+    obstacle:data.obstacle||'',
+    countermeasure:data.countermeasure||'',
+    createdAt:todayStr(),
+    isSample:false,
+    records:[]
+  };
+  state.goals.push(goal);
+  saveState();
+  renderAll();
+}
+function updateGoal(id,data){
+  const g=state.goals.find(g=>g.id===id);
+  if(!g)return;
+  g.name=data.name;g.unit=data.unit;g.total=parseInt(data.total);
+  g.deadline=data.deadline;g.color=data.color;
+  g.obstacle=data.obstacle||'';g.countermeasure=data.countermeasure||'';
+  saveState();renderAll();
+}
+function deleteGoal(id){
+  state.goals=state.goals.filter(g=>g.id!==id);
+  saveState();renderAll();
+}
+function doCheckin(goalId,amount,minutes,date,isBackfill){
+  const g=state.goals.find(g=>g.id===goalId);
+  if(!g)return;
+  if(!g.records)g.records=[];
+  const wasCompleted=isCompleted(g);
+  g.records.push({
+    id:uid(),date:date,amount:parseInt(amount),
+    minutes:minutes?parseInt(minutes):null,
+    isBackfill:isBackfill
+  });
+  const nowCompleted=isCompleted(g);
+  saveState();renderAll();
+  if(!wasCompleted&&nowCompleted){
+    showCelebration();
+  }
+}
+function deleteRecord(goalId,recordId){
+  const g=state.goals.find(g=>g.id===goalId);
+  if(!g||!g.records)return;
+  g.records=g.records.filter(r=>r.id!==recordId);
+  saveState();renderAll();
+}
+function adjustPlan(goalId,newDeadline,newTotal){
+  const g=state.goals.find(g=>g.id===goalId);
+  if(!g)return;
+  g.deadline=newDeadline;
+  if(newTotal)g.total=parseInt(newTotal);
+  saveState();renderAll();
+  showToast('计划已调整');
+}
+
+// ===== TODAY TAB =====
+function renderToday(){
+  const c=document.getElementById('todayContent');
+  const today=todayStr();
+  let html='';
+
+  // header
+  html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">';
+  html+='<h1>今日</h1>';
+  html+='<button class="btn btn-primary" onclick="openGoalModal()">'+ICONS.plus+'新建目标</button>';
+  html+='</div>';
+
+  // today's tasks section
+  const alerts=buildTodayAlerts();
+  if(alerts.length>0){
+    html+='<div class="section-title"><h2>今天要处理</h2><span class="count">'+alerts.length+'</span></div>';
+    html+='<div id="todayAlerts">'+alerts.join('')+'</div>';
+  }
+
+  // all goals
+  const goals=state.goals;
+  if(goals.length===0){
+    html+='<div class="empty-state">';
+    html+='<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>';
+    html+='<p>还没有学习目标，点击上方按钮创建第一个吧</p>';
+    html+='</div>';
+  }else{
+    html+='<div class="section-title"><h2>全部目标</h2><span class="count">'+goals.length+'</span></div>';
+    html+='<div class="today-grid">';
+    goals.forEach(g=>{html+=renderGoalCard(g);});
+    html+='</div>';
+  }
+
+  // bottom new goal CTA
+  html+='<div style="margin-top:20px;text-align:center">';
+  html+='<button class="btn btn-primary btn-lg" onclick="openGoalModal()">'+ICONS.plus+'新建目标</button>';
+  html+='</div>';
+
+  c.innerHTML=html;
+}
+
+function buildTodayAlerts(){
+  const alerts=[];
+  const today=todayStr();
+  state.goals.forEach(g=>{
+    if(isCompleted(g))return;
+    // overdue
+    if(isOverdue(g)){
+      const days=getDaysOverdue(g);
+      alerts.push(renderAlertCard(g,'red',
+        '已逾期 '+days+' 天',
+        '「'+g.name+'」截止日已过 '+days+' 天，剩余 '+getRemaining(g)+' '+g.unit+'未完成。',
+        [{'label':'立即打卡',fn:'openCheckinModal("'+g.id+'")',primary:true},
+         {'label':'调整计划',fn:'openPlanModal("'+g.id+'")',primary:false}]
+      ));
+      return;
+    }
+    // yesterday missed
+    const ys=getYesterdayStatus(g);
+    if(ys==='rest'){
+      alerts.push(renderAlertCard(g,'yellow',
+        '昨日休息日（连续不中断）',
+        '「'+g.name+'」昨天未打卡，已自动使用本周休息日，连续天数不受影响。今日建议 '+getSuggestedAmount(g)+' '+g.unit+'。',
+        [{'label':'立即打卡',fn:'openCheckinModal("'+g.id+'")',primary:true}]));
+    }else if(ys==='broken'){
+      alerts.push(renderAlertCard(g,'red',
+        '昨日漏卡，连续中断',
+        '「'+g.name+'」昨天未打卡，本周休息日已用完，连续天数已重置。今日建议 '+getSuggestedAmount(g)+' '+g.unit+'，重新开始吧。',
+        [{'label':'立即打卡',fn:'openCheckinModal("'+g.id+'")',primary:true},
+         {'label':'调整计划',fn:'openPlanModal("'+g.id+'")',primary:false}]));
+    }
+  });
+  return alerts;
+}
+
+function renderAlertCard(goal,type,title,desc,actions){
+  let html='<div class="alert-card '+type+'">';
+  html+='<div class="alert-icon">'+(type==='red'?ICONS.alert:ICONS.info)+'</div>';
+  html+='<div class="alert-body">';
+  html+='<div class="alert-title">'+escapeHtml(title)+'</div>';
+  html+='<div class="alert-desc">'+escapeHtml(desc)+'</div>';
+  html+='<div class="alert-actions">';
+  actions.forEach(a=>{
+    html+='<button class="btn btn-sm '+(a.primary?'btn-primary':'btn-ghost')+'" onclick="'+a.fn+'">'+a.label+'</button>';
+  });
+  html+='</div></div></div>';
+  return html;
+}
+
+function renderGoalCard(goal){
+  const completed=getCompleted(goal);
+  const remaining=getRemaining(goal);
+  const percent=getPercent(goal);
+  const streak=getStreak(goal);
+  const est=getEstDisplay(goal);
+  const suggested=getSuggestedAmount(goal);
+  const todayDone=hasTodayRecord(goal);
+  const todayRecs=getTodayRecords(goal);
+  let todayAmount=todayRecs.reduce((s,r)=>s+r.amount,0);
+
+  let html='<div class="goal-card" style="border-left-color:'+goal.color+'">';
+  // header
+  html+='<div class="gc-header">';
+  html+='<div class="gc-title">'+escapeHtml(goal.name);
+  if(goal.isSample)html+='<span class="tag tag-sample" style="margin-left:6px">示例</span>';
+  if(todayDone)html+='<span class="gc-today-badge done">'+ICONS.check+'今日已打卡 '+todayAmount+'</span>';
+  html+='</div>';
+  html+='<div class="gc-actions">';
+  html+='<button class="btn-icon" onclick="openGoalModal(\''+goal.id+'\')">'+ICONS.edit+'</button>';
+  html+='<button class="btn-icon" onclick="confirmDeleteGoal(\''+goal.id+'\')">'+ICONS.trash+'</button>';
+  html+='</div></div>';
+
+  // stats
+  html+='<div class="gc-stats">';
+  html+='<span class="gc-stat">'+ICONS.target+'<strong>'+completed+'</strong>/'+goal.total+' '+escapeHtml(goal.unit)+'</span>';
+  html+='<span class="gc-stat">'+ICONS.flame+'连续 <strong>'+streak+'</strong> 天</span>';
+  html+='<span class="gc-stat">'+(est.cls?('<span class="'+est.cls+'">'+ICONS.trend+est.text+'</span>'):('<span>'+ICONS.trend+est.text+'</span>'))+'</span>';
+  html+='</div>';
+
+  // progress bar
+  html+='<div class="gc-bar"><div class="gc-bar-fill" style="width:'+percent+'%;background:'+goal.color+'"></div></div>';
+
+  // plan (obstacle + countermeasure)
+  if(goal.obstacle||goal.countermeasure){
+    html+='<div class="gc-plan">';
+    if(goal.obstacle){
+      html+='<div class="gc-plan-row"><span class="gc-plan-label">障碍</span><span class="gc-plan-text">'+escapeHtml(goal.obstacle)+'</span></div>';
+    }
+    if(goal.countermeasure){
+      html+='<div class="gc-plan-row"><span class="gc-plan-label">对策</span><span class="gc-plan-text">'+escapeHtml(goal.countermeasure)+'</span></div>';
+    }
+    html+='</div>';
+  }
+
+  // quick check-in
+  if(!isCompleted(goal)){
+    html+='<div class="gc-checkin">';
+    html+='<div class="field"><label>数量('+escapeHtml(goal.unit)+')</label><input type="number" id="qi_'+goal.id+'" value="'+suggested+'" min="1" step="1"></div>';
+    html+='<div class="field"><label>分钟(选填)</label><input type="number" id="qm_'+goal.id+'" placeholder="如30" min="0" step="1"></div>';
+    html+='<button class="btn btn-primary" onclick="quickCheckin(\''+goal.id+'\')">'+ICONS.check+'打卡</button>';
+    html+='</div>';
+  }else{
+    html+='<div style="text-align:center;padding:8px;background:#dcfce7;border-radius:8px;color:var(--success);font-weight:700;font-size:14px">'+ICONS.check+' 已达成目标！</div>';
+  }
+
+  html+='</div>';
+  return html;
+}
+
+function quickCheckin(goalId){
+  const amountEl=document.getElementById('qi_'+goalId);
+  const minEl=document.getElementById('qm_'+goalId);
+  const amount=parseInt(amountEl.value);
+  if(!amount||amount<=0){showToast('请输入有效数量');return;}
+  const minutes=minEl.value?parseInt(minEl.value):null;
+  doCheckin(goalId,amount,minutes,todayStr(),false);
+  showToast('打卡成功：'+amount);
+}
+
+// ===== KANBAN TAB =====
+function renderKanban(){
+  const c=document.getElementById('kanbanContent');
+  let html='';
+  html+='<div style="margin-bottom:16px"><h1>看板</h1></div>';
+
+  if(state.goals.length===0){
+    html+='<div class="empty-state"><p>还没有目标，先去「今日」创建吧</p></div>';
+    c.innerHTML=html;return;
+  }
+
+  html+='<div class="kanban-grid">';
+  state.goals.forEach(g=>{html+=renderKanbanCard(g);});
+  html+='</div>';
+
+  // stacked bar chart
+  html+=renderChartSection();
+  c.innerHTML=html;
+}
+
+function svgProgressRing(percent,color,size=72){
+  const r=size/2-7;
+  const circ=2*Math.PI*r;
+  const offset=circ*(1-percent/100);
+  return '<div class="ring-wrap">'
+    +'<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">'
+    +'<circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="#e2e8f0" stroke-width="6"/>'
+    +'<circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="6" '
+    +'stroke-dasharray="'+circ+'" stroke-dashoffset="'+offset+'" stroke-linecap="round" '
+    +'transform="rotate(-90 '+size/2+' '+size/2+')" style="transition:stroke-dashoffset .6s ease"/>'
+    +'</svg>'
+    +'<div class="ring-center"><div class="pct" style="color:'+color+'">'+Math.round(percent)+'%</div>'
+    +'<div class="lbl">完成率</div></div></div>';
+}
+
+function renderKanbanCard(goal){
+  const percent=getPercent(goal);
+  const completed=getCompleted(goal);
+  const streak=getStreak(goal);
+  const est=getEstDisplay(goal);
+  let html='<div class="kanban-card" style="border-top-color:'+goal.color+'">';
+
+  // header with ring
+  html+='<div class="kc-header">';
+  html+=svgProgressRing(percent,goal.color,72);
+  html+='<div class="kc-info">';
+  html+='<div class="kc-name">'+escapeHtml(goal.name)+'</div>';
+  html+='<div class="kc-stats">';
+  html+='<div class="kc-stat"><span class="lbl">已完成</span><span class="val" style="color:'+goal.color+'">'+completed+'/'+goal.total+' '+escapeHtml(goal.unit)+'</span></div>';
+  html+='<div class="kc-stat"><span class="lbl">连续天数</span><span class="val">'+streak+' 天</span></div>';
+  html+='<div class="kc-stat"><span class="lbl">预计完成</span><span class="val '+(est.cls||'')+'">'+est.text+'</span></div>';
+  html+='</div></div></div>';
+
+  // plan
+  if(goal.obstacle||goal.countermeasure){
+    html+='<div class="kc-plan">';
+    if(goal.obstacle)html+='<div class="gc-plan-row"><span class="gc-plan-label">'+ICONS.shield+'障碍</span><span class="gc-plan-text">'+escapeHtml(goal.obstacle)+'</span></div>';
+    if(goal.countermeasure)html+='<div class="gc-plan-row"><span class="gc-plan-label">对策</span><span class="gc-plan-text">'+escapeHtml(goal.countermeasure)+'</span></div>';
+    html+='</div>';
+  }
+
+  // recent 10 records
+  const recs=(goal.records||[]).slice().sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id)).slice(0,10);
+  html+='<div class="kc-records"><h4>最近记录</h4>';
+  if(recs.length===0){
+    html+='<div style="font-size:13px;color:var(--text3);padding:8px 0">暂无记录</div>';
+  }else{
+    recs.forEach(r=>{
+      html+='<div class="record-item">';
+      html+='<span class="record-date">'+fmtDateMD(r.date)+'</span>';
+      if(r.isBackfill)html+='<span class="record-tag">补</span>';
+      html+='<span class="record-amount">+'+r.amount+' '+escapeHtml(goal.unit)+'</span>';
+      if(r.minutes)html+='<span class="record-minutes">'+ICONS.clock+r.minutes+'min</span>';
+      html+='<span style="flex:1"></span>';
+      html+='<button class="btn-icon" onclick="deleteRecord(\''+goal.id+'\',\''+r.id+'\')">'+ICONS.trash+'</button>';
+      html+='</div>';
+    });
+  }
+  html+='</div>';
+
+  html+='</div>';
+  return html;
+}
+
+// ===== SVG STACKED BAR CHART =====
+function renderChartSection(){
+  const days=getLast14DaysMinutes();
+  const maxMin=Math.max(1,...days.map(d=>Object.values(d.goals).reduce((s,v)=>s+v,0)));
+  const chartW=680,chartH=180,padL=30,padB=24,padT=10,padR=10;
+  const barW=(chartW-padL-padR)/14*0.6;
+  const gap=(chartW-padL-padR)/14*0.4;
+  const plotH=chartH-padB-padT;
+
+  let html='<div class="chart-section">';
+  html+='<h3>近 14 天投入分钟（分目标堆叠）</h3>';
+  html+='<svg class="chart-svg" viewBox="0 0 '+chartW+' '+chartH+'" preserveAspectRatio="xMidYMid meet">';
+
+  // y-axis grid lines
+  for(let i=0;i<=4;i++){
+    const y=padT+plotH*(1-i/4);
+    const val=Math.round(maxMin*i/4);
+    html+='<line x1="'+padL+'" y1="'+y+'" x2="'+(chartW-padR)+'" y2="'+y+'" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,3"/>';
+    html+='<text x="'+(padL-4)+'" y="'+(y+3)+'" text-anchor="end" font-size="10" fill="#94a3b8">'+val+'</text>';
+  }
+
+  // bars
+  days.forEach((d,i)=>{
+    const x=padL+i*((chartW-padL-padR)/14)+gap/2;
+    let yTop=padT+plotH;
+    const dayTotal=Object.values(d.goals).reduce((s,v)=>s+v,0);
+    const dow=getDayOfWeek(d.date);
+    const isToday=d.date===todayStr();
+
+    // background for today
+    if(isToday){
+      html+='<rect x="'+(x-gap/2)+'" y="'+padT+'" width="'+(barW+gap)+'" height="'+plotH+'" fill="#faf5ff" rx="2"/>';
+    }
+
+    // stacked segments
+    state.goals.forEach(g=>{
+      const mins=d.goals[g.id]||0;
+      if(mins>0){
+        const h=(mins/maxMin)*plotH;
+        yTop-=h;
+        html+='<rect x="'+x+'" y="'+yTop+'" width="'+barW+'" height="'+h+'" fill="'+g.color+'" rx="1.5"/>';
+      }
+    });
+
+    // x-axis label
+    const labelDate=parseDate(d.date);
+    const lbl=(labelDate.getMonth()+1)+'/'+labelDate.getDate();
+    html+='<text x="'+(x+barW/2)+'" y="'+(chartH-6)+'" text-anchor="middle" font-size="9" fill="'+(isToday?'#7c3aed':'#94a3b8')+'" font-weight="'+(isToday?'700':'400')+'">'+lbl+'</text>';
+    if(dow===0||dow===6){
+      html+='<text x="'+(x+barW/2)+'" y="'+(chartH+8)+'" text-anchor="middle" font-size="8" fill="#cbd5e1">'+WEEK_NAMES[dow].substr(1)+'</text>';
+    }
+  });
+
+  html+='</svg>';
+
+  // legend
+  html+='<div class="chart-legend">';
+  state.goals.forEach(g=>{
+    html+='<div class="chart-legend-item"><div class="chart-legend-dot" style="background:'+g.color+'"></div>'+escapeHtml(g.name)+'</div>';
+  });
+  html+='</div>';
+
+  html+='</div>';
+  return html;
+}
+
+// ===== WEEKLY REPORT TAB =====
+function getCurrentWeekStart(){
+  const today=todayStr();
+  const ws=getWeekStart(today);
+  return addDays(ws,weeklyOffset*7);
+}
+function renderWeekly(){
+  const c=document.getElementById('weeklyContent');
+  const weekStart=getCurrentWeekStart();
+  const weekEnd=addDays(weekStart,6);
+  let html='';
+
+  html+='<div style="margin-bottom:16px"><h1>周报</h1></div>';
+
+  // week navigation
+  html+='<div class="weekly-nav">';
+  html+='<button class="btn btn-ghost btn-sm" onclick="changeWeek(-1)">'+ICONS.chevronL+'上一周</button>';
+  html+='<h2>'+fmtDateShort(weekStart)+' ~ '+fmtDateShort(weekEnd)+'</h2>';
+  html+='<button class="btn btn-ghost btn-sm" onclick="changeWeek(1)">下一周'+ICONS.chevronR+'</button>';
+  html+='</div>';
+
+  if(state.goals.length===0){
+    html+='<div class="empty-state"><p>还没有目标，先去「今日」创建吧</p></div>';
+    c.innerHTML=html;return;
+  }
+
+  // weekly table
+  html+='<table class="weekly-table"><thead><tr><th>目标</th>';
+  for(let i=0;i<7;i++){
+    const ds=addDays(weekStart,i);
+    const isToday=ds===todayStr();
+    html+='<th'+(isToday?' class="today-col"':'')+'>'+WEEK_NAMES[i]+'</th>';
+  }
+  html+='<th>合计</th></tr></thead><tbody>';
+
+  // prev week for comparison
+  const prevWeekStart=addDays(weekStart,-7);
+  let weekTotalAmount=0,weekTotalDays=0,weekTotalMinutes=0;
+  let prevTotalAmount=0,prevTotalDays=0,prevTotalMinutes=0;
+
+  state.goals.forEach(g=>{
+    html+='<tr><td style="color:'+g.color+'">'+escapeHtml(g.name)+'</td>';
+    const stats=getWeekStats(g,weekStart);
+    const prevStats=getWeekStats(g,prevWeekStart);
+    weekTotalAmount+=stats.amount;weekTotalDays+=stats.days;weekTotalMinutes+=stats.minutes;
+    prevTotalAmount+=prevStats.amount;prevTotalDays+=prevStats.days;prevTotalMinutes+=prevStats.minutes;
+
+    for(let i=0;i<7;i++){
+      const ds=addDays(weekStart,i);
+      const dayRecs=stats.recs.filter(r=>r.date===ds);
+      const isToday=ds===todayStr();
+      html+='<td'+(isToday?' class="today-col"':'')+'>';
+      if(dayRecs.length>0){
+        const amt=dayRecs.reduce((s,r)=>s+r.amount,0);
+        const min=dayRecs.reduce((s,r)=>s+(r.minutes||0),0);
+        html+=amt;
+        if(min>0)html+='<br><span style="font-size:10px;color:var(--text3)">'+min+'m</span>';
+      }else{
+        html+='<span style="color:var(--text3)">—</span>';
+      }
+      html+='</td>';
+    }
+    html+='<td><strong>'+stats.amount+'</strong><br><span style="font-size:10px;color:var(--text3)">'+stats.days+'天/'+stats.minutes+'m</span></td>';
+    html+='</tr>';
+  });
+
+  // total row
+  html+='<tr class="total-row"><td>合计</td>';
+  for(let i=0;i<7;i++){
+    const ds=addDays(weekStart,i);
+    const dayTotal=state.goals.reduce((s,g)=>{
+      return s+(g.records||[]).filter(r=>r.date===ds).reduce((ss,r)=>ss+r.amount,0);
+    },0);
+    const isToday=ds===todayStr();
+    html+='<td'+(isToday?' class="today-col"':'')+'>'+(dayTotal>0?dayTotal:'<span style="color:var(--text3)">—</span>')+'</td>';
+  }
+  html+='<td>'+weekTotalAmount+'</td></tr>';
+  html+='</tbody></table>';
+
+  // summary with comparison
+  html+='<div class="weekly-summary">';
+  state.goals.forEach(g=>{
+    const stats=getWeekStats(g,weekStart);
+    const prevStats=getWeekStats(g,prevWeekStart);
+    let cmpCls='flat',cmpText='持平';
+    if(prevStats.amount>0){
+      const change=((stats.amount-prevStats.amount)/prevStats.amount*100);
+      if(change>0){cmpCls='up';cmpText='↑'+Math.round(change)+'%';}
+      else if(change<0){cmpCls='down';cmpText='↓'+Math.abs(Math.round(change))+'%';}
+    }else if(stats.amount>0){
+      cmpCls='up';cmpText='新增';
+    }
+    html+='<div class="ws-card" style="border-left-color:'+g.color+'">';
+    html+='<div class="ws-name">'+escapeHtml(g.name)+'</div>';
+    html+='<div class="ws-stats">';
+    html+='<span class="ws-stat"><span class="lbl">投入量</span><span class="val">'+stats.amount+' '+escapeHtml(g.unit)+'</span></span>';
+    html+='<span class="ws-stat"><span class="lbl">打卡</span><span class="val">'+stats.days+' 天</span></span>';
+    html+='<span class="ws-stat"><span class="lbl">分钟</span><span class="val">'+stats.minutes+' min</span></span>';
+    html+='</div>';
+    html+='<div class="ws-compare '+cmpCls+'">环比 '+cmpText+'</div>';
+    html+='</div>';
+  });
+  html+='</div>';
+
+  // four-column notes
+  const reportKey=weekStart;
+  const report=state.weeklyReports[reportKey]||{};
+  html+='<div class="weekly-notes">';
+  html+='<div class="note-group"><label>保持</label><textarea id="note_keep" placeholder="本周做得好的...">'+escapeHtml(report.keep||'')+'</textarea></div>';
+  html+='<div class="note-group"><label>问题</label><textarea id="note_problem" placeholder="遇到的问题...">'+escapeHtml(report.problem||'')+'</textarea></div>';
+  html+='<div class="note-group"><label>尝试</label><textarea id="note_try" placeholder="尝试了什么...">'+escapeHtml(report.try||'')+'</textarea></div>';
+  html+='<div class="note-group"><label>下周预案</label><textarea id="note_plan" placeholder="下周计划...">'+escapeHtml(report.plan||'')+'</textarea></div>';
+  html+='</div>';
+
+  // actions
+  html+='<div class="weekly-actions">';
+  html+='<button class="btn btn-primary" onclick="saveWeeklyReport()">'+ICONS.save+'保存周报</button>';
+  html+='<button class="btn btn-outline" onclick="generateReportText()">'+ICONS.copy+'生成周报文本</button>';
+  html+='</div>';
+
+  c.innerHTML=html;
+}
+
+function changeWeek(delta){
+  weeklyOffset+=delta;
+  renderWeekly();
+}
+
+function saveWeeklyReport(){
+  const weekStart=getCurrentWeekStart();
+  state.weeklyReports[weekStart]={
+    keep:document.getElementById('note_keep').value,
+    problem:document.getElementById('note_problem').value,
+    try:document.getElementById('note_try').value,
+    plan:document.getElementById('note_plan').value
+  };
+  saveState();
+  showToast('周报已保存');
+}
+
+function generateReportText(){
+  const weekStart=getCurrentWeekStart();
+  const weekEnd=addDays(weekStart,6);
+  const report=state.weeklyReports[weekStart]||{};
+  const prevWeekStart=addDays(weekStart,-7);
+  let text='===== 学习周报 =====\n';
+  text+='时间：'+fmtDateShort(weekStart)+' ~ '+fmtDateShort(weekEnd)+'\n\n';
+
+  text+='【各目标完成情况】\n';
+  state.goals.forEach(g=>{
+    const stats=getWeekStats(g,weekStart);
+    const prevStats=getWeekStats(g,prevWeekStart);
+    text+='• '+g.name+'：投入'+stats.amount+' '+g.unit+'，打卡'+stats.days+'天，'+stats.minutes+'分钟';
+    if(prevStats.amount>0){
+      const change=((stats.amount-prevStats.amount)/prevStats.amount*100);
+      text+='（环比'+(change>=0?'↑':'↓')+Math.abs(Math.round(change))+'%）';
+    }
+    text+='\n';
+  });
+
+  const totalAmount=state.goals.reduce((s,g)=>s+getWeekStats(g,weekStart).amount,0);
+  const totalDays=state.goals.reduce((s,g)=>s+getWeekStats(g,weekStart).days,0);
+  const totalMinutes=state.goals.reduce((s,g)=>s+getWeekStats(g,weekStart).minutes,0);
+  const prevTotalAmount=state.goals.reduce((s,g)=>s+getWeekStats(g,prevWeekStart).amount,0);
+  text+='\n【合计】投入'+totalAmount+'，打卡'+totalDays+'天，'+totalMinutes+'分钟';
+  if(prevTotalAmount>0){
+    const change=((totalAmount-prevTotalAmount)/prevTotalAmount*100);
+    text+='（环比'+(change>=0?'↑':'↓')+Math.abs(Math.round(change))+'%）';
+  }
+  text+='\n';
+
+  if(report.keep)text+='\n【保持】\n'+report.keep+'\n';
+  if(report.problem)text+='\n【问题】\n'+report.problem+'\n';
+  if(report.try)text+='\n【尝试】\n'+report.try+'\n';
+  if(report.plan)text+='\n【下周预案】\n'+report.plan+'\n';
+
+  text+='\n====================';
+  window._reportText=text;
+  showModal({
+    title:'周报文本',
+    body:'<div class="report-text">'+escapeHtml(text)+'</div>',
+    footer:'<button class="btn btn-ghost btn-sm" onclick="hideModal()">关闭</button><button class="btn btn-primary btn-sm" onclick="copyReportText()">'+ICONS.copy+'复制全文</button>'
+  });
+}
+
+function copyReportText(){
+  const text=window._reportText||'';
+  const ta=document.createElement('textarea');
+  ta.value=text;
+  document.body.appendChild(ta);
+  ta.select();
+  try{document.execCommand('copy');showToast('已复制到剪贴板');}catch(e){showToast('复制失败，请手动选择');}
+  document.body.removeChild(ta);
+}
+
+// ===== SETTINGS TAB =====
+function renderSettings(){
+  const c=document.getElementById('settingsContent');
+  let html='';
+  html+='<div style="margin-bottom:16px"><h1>我的</h1></div>';
+
+  // backup
+  html+='<div class="settings-section"><h3>'+ICONS.shield+'数据备份</h3>';
+  html+='<div class="settings-desc">所有数据保存在浏览器本地，建议定期导出备份。</div>';
+  html+='<div class="settings-row">';
+  html+='<button class="btn btn-primary" onclick="exportJSON()">'+ICONS.download+'导出 JSON 备份</button>';
+  html+='<button class="btn btn-outline" onclick="document.getElementById(\'importFile\').click()">'+ICONS.upload+'导入恢复</button>';
+  html+='</div></div>';
+
+  // data management
+  html+='<div class="settings-section"><h3>'+ICONS.layers+'数据管理</h3>';
+  const sampleCount=state.goals.filter(g=>g.isSample).length;
+  if(sampleCount>0){
+    html+='<div class="settings-row"><button class="btn btn-ghost" onclick="clearExamples()">清空示例数据（'+sampleCount+' 个）</button></div>';
+  }
+  html+='<div class="settings-desc">输入"清空"后点击按钮，将删除所有目标和记录，不可恢复。</div>';
+  html+='<div class="settings-row">';
+  html+='<input type="text" class="settings-input" id="clearConfirm" placeholder="输入 清空" />';
+  html+='<button class="btn btn-danger" onclick="clearAll()">清空全部</button>';
+  html+='</div></div>';
+
+  // migration
+  html+='<div class="settings-section"><h3>'+ICONS.info+'版本迁移</h3>';
+  html+='<div class="settings-desc">当前数据版本：v'+state.schemaVersion+'。如从旧版本升级，可手动触发迁移。</div>';
+  html+='<div class="settings-row"><button class="btn btn-ghost" onclick="migrateState();showToast(\'迁移完成\')">执行迁移</button></div>';
+  html+='<div class="settings-row" style="font-size:13px;color:var(--text2)">总目标数：'+state.goals.length+'，总记录数：'+getTotalRecords()+'</div>';
+  html+='</div>';
+
+  // add to home screen
+  html+='<div class="settings-section"><h3>'+ICONS.phone+'添加到手机主屏幕</h3>';
+  html+='<ol class="pwa-steps">';
+  html+='<li>在手机浏览器中打开本页面链接</li>';
+  html+='<li>点击浏览器底部菜单栏或分享按钮</li>';
+  html+='<li>选择「添加到主屏幕」或「添加到桌面」，即可像 APP 一样使用</li>';
+  html+='</ol></div>';
+
+  c.innerHTML=html;
+}
+
+function exportJSON(){
+  const data=JSON.stringify(state,null,2);
+  const blob=new Blob([data],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='learning-goals-backup-'+todayStr()+'.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('已导出备份文件');
+}
+
+function handleImportFile(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.goals){showToast('文件格式不正确');return;}
+      showModal({
+        title:'确认导入',
+        body:'<p style="font-size:14px;color:var(--text2)">导入将<strong style="color:var(--danger)">覆盖</strong>当前所有数据（'+state.goals.length+' 个目标，'+getTotalRecords()+' 条记录）。</p><p style="font-size:14px;color:var(--text2);margin-top:8px">新数据：'+data.goals.length+' 个目标，'+(data.goals.reduce((s,g)=>s+(g.records?g.records.length:0),0))+' 条记录。</p><p style="font-size:13px;color:var(--text3);margin-top:8px">建议先导出当前数据作为备份。</p>',
+        footer:'<button class="btn btn-ghost btn-sm" onclick="hideModal()">取消</button><button class="btn btn-danger btn-sm" onclick="doImport()">确认覆盖导入</button>'
+      });
+      window._importData=data;
+    }catch(err){
+      showToast('文件解析失败');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value='';
+}
+
+function doImport(){
+  if(!window._importData)return;
+  state=window._importData;
+  if(!state.weeklyReports)state.weeklyReports={};
+  if(!state.schemaVersion)state.schemaVersion=1;
+  state.goals.forEach(g=>{if(!g.records)g.records=[];});
+  saveState();
+  hideModal();
+  renderAll();
+  showToast('导入成功');
+}
+
+function clearExamples(){
+  state.goals=state.goals.filter(g=>!g.isSample);
+  saveState();renderAll();
+  showToast('已清空示例数据');
+}
+
+function clearAll(){
+  const v=document.getElementById('clearConfirm').value.trim();
+  if(v!=='清空'){showToast('请输入"清空"以确认');return;}
+  state={goals:[],weeklyReports:{},schemaVersion:SCHEMA_VERSION};
+  saveState();renderAll();
+  showToast('已清空全部数据');
+}
+
+// ===== MODAL =====
+let selectedColor=COLOR_PRESETS[0];
+
+function showModal(opts){
+  document.getElementById('modalOverlay').classList.remove('hidden');
+  const box=document.getElementById('modalBox');
+  box.classList.remove('hidden');
+  let html='<div class="modal-header"><h3>'+opts.title+'</h3><button class="btn-icon" onclick="hideModal()">'+ICONS.close+'</button></div>';
+  html+='<div class="modal-body">'+opts.body+'</div>';
+  if(opts.footer)html+='<div class="modal-footer">'+opts.footer+'</div>';
+  box.innerHTML=html;
+  box.scrollTop=0;
+}
+function hideModal(){
+  document.getElementById('modalOverlay').classList.add('hidden');
+  document.getElementById('modalBox').classList.add('hidden');
+  editingGoalId=null;checkinGoalId=null;
+}
+
+// ===== GOAL MODAL =====
+function openGoalModal(goalId){
+  editingGoalId=goalId||null;
+  const g=goalId?state.goals.find(x=>x.id===goalId):null;
+  selectedColor=g?g.color:COLOR_PRESETS[0];
+  let swatches='';
+  COLOR_PRESETS.forEach(c=>{
+    swatches+='<div class="color-swatch'+(c===selectedColor?' selected':'')+'" style="background:'+c+'" onclick="selectColor(\''+c+'\')" data-color="'+c+'"></div>';
+  });
+  let body='';
+  body+='<div class="form-group"><label>目标名称</label><input type="text" id="f_name" value="'+(g?escapeHtml(g.name):'')+'" placeholder="如：背英语单词"></div>';
+  body+='<div class="form-row"><div class="form-group"><label>单位</label><input type="text" id="f_unit" value="'+(g?escapeHtml(g.unit):'')+'" placeholder="如：个/页/节"></div>';
+  body+='<div class="form-group"><label>总量</label><input type="number" id="f_total" value="'+(g?g.total:'')+'" placeholder="如：2000" min="1"></div></div>';
+  body+='<div class="form-group"><label>截止日期</label><input type="date" id="f_deadline" value="'+(g?g.deadline:'')+'"></div>';
+  body+='<div class="form-group"><label>配色</label><div class="color-swatches" id="colorSwatches">'+swatches+'</div></div>';
+  body+='<div class="form-group"><label>最容易拦住你的障碍（选填）</label><textarea id="f_obstacle" placeholder="如：下班太累不想背">'+(g?escapeHtml(g.obstacle):'')+'</textarea></div>';
+  body+='<div class="form-group"><label>如果它出现，我就……（选填）</label><textarea id="f_countermeasure" placeholder="如：先背5个再决定要不要继续">'+(g?escapeHtml(g.countermeasure):'')+'</textarea></div>';
+  showModal({title:g?'编辑目标':'新建目标',body:body,
+    footer:'<button class="btn btn-ghost btn-sm" onclick="hideModal()">取消</button><button class="btn btn-primary btn-sm" onclick="saveGoalFromForm()">'+ICONS.save+'保存</button>'});
+}
+function selectColor(c){
+  selectedColor=c;
+  document.querySelectorAll('.color-swatch').forEach(el=>{el.classList.toggle('selected',el.dataset.color===c);});
+}
+function saveGoalFromForm(){
+  const name=document.getElementById('f_name').value.trim();
+  const unit=document.getElementById('f_unit').value.trim();
+  const total=document.getElementById('f_total').value;
+  const deadline=document.getElementById('f_deadline').value;
+  const obstacle=document.getElementById('f_obstacle').value.trim();
+  const countermeasure=document.getElementById('f_countermeasure').value.trim();
+  if(!name){showToast('请输入目标名称');return;}
+  if(!unit){showToast('请输入单位');return;}
+  if(!total||total<=0){showToast('请输入有效的总量');return;}
+  if(!deadline){showToast('请选择截止日期');return;}
+  const data={name,unit,total,deadline,color:selectedColor,obstacle,countermeasure};
+  if(editingGoalId){updateGoal(editingGoalId,data);showToast('已更新');}
+  else{addGoal(data);showToast('已创建');}
+  hideModal();
+}
+
+// ===== CHECKIN MODAL =====
+function openCheckinModal(goalId){
+  checkinGoalId=goalId;
+  const g=state.goals.find(x=>x.id===goalId);
+  if(!g)return;
+  const suggested=getSuggestedAmount(g);
+  let dateOpts='';
+  for(let i=0;i<=6;i++){
+    const ds=addDays(todayStr(),-i);
+    const lbl=i===0?'今天':(i===1?'昨天':i+'天前');
+    const bf=i>0?' (补记)':'';
+    dateOpts+='<option value="'+ds+'"'+(i===0?' selected':'')+'>'+lbl+bf+' '+fmtDateMD(ds)+'</option>';
+  }
+  let body='';
+  body+='<div class="form-group"><label>日期</label><select id="ci_date">'+dateOpts+'</select></div>';
+  body+='<div class="form-group"><label>数量（'+escapeHtml(g.unit)+'）</label><input type="number" id="ci_amount" value="'+suggested+'" min="1" step="1"><div class="form-hint">今日建议量：'+suggested+' '+escapeHtml(g.unit)+'（剩余量÷剩余天数）</div></div>';
+  body+='<div class="form-group"><label>用时分钟（选填）</label><input type="number" id="ci_minutes" placeholder="如 30" min="0" step="1"></div>';
+  showModal({title:'打卡 - '+escapeHtml(g.name),body:body,
+    footer:'<button class="btn btn-ghost btn-sm" onclick="hideModal()">取消</button><button class="btn btn-primary btn-sm" onclick="confirmCheckin()">'+ICONS.check+'确认打卡</button>'});
+}
+function confirmCheckin(){
+  const date=document.getElementById('ci_date').value;
+  const amount=parseInt(document.getElementById('ci_amount').value);
+  const minVal=document.getElementById('ci_minutes').value;
+  const minutes=minVal?parseInt(minVal):null;
+  if(!amount||amount<=0){showToast('请输入有效数量');return;}
+  const isBackfill=date!==todayStr();
+  doCheckin(checkinGoalId,amount,minutes,date,isBackfill);
+  hideModal();
+  showToast('打卡成功：'+amount);
+}
+
+// ===== DELETE MODAL =====
+function confirmDeleteGoal(goalId){
+  const g=state.goals.find(x=>x.id===goalId);
+  if(!g)return;
+  showModal({title:'确认删除',body:'<p style="font-size:14px">确定要删除「'+escapeHtml(g.name)+'」吗？</p><p style="font-size:13px;color:var(--text2);margin-top:4px">将同时删除 '+(g.records?g.records.length:0)+' 条打卡记录，不可恢复。</p>',
+    footer:'<button class="btn btn-ghost btn-sm" onclick="hideModal()">取消</button><button class="btn btn-danger btn-sm" onclick="doDeleteGoal(\''+goalId+'\')">确认删除</button>'});
+}
+function doDeleteGoal(goalId){deleteGoal(goalId);hideModal();showToast('已删除');}
+
+// ===== PLAN MODAL =====
+function openPlanModal(goalId){
+  const g=state.goals.find(x=>x.id===goalId);
+  if(!g)return;
+  const completed=getCompleted(g),remaining=getRemaining(g);
+  const daysLeft=getDaysUntilDeadline(g),suggested=getSuggestedAmount(g);
+  let body='<div style="margin-bottom:16px">';
+  body+='<div class="plan-modal-stat"><span class="lbl">目标</span><span class="val">'+escapeHtml(g.name)+'</span></div>';
+  body+='<div class="plan-modal-stat"><span class="lbl">已完成</span><span class="val">'+completed+' / '+g.total+' '+escapeHtml(g.unit)+'</span></div>';
+  body+='<div class="plan-modal-stat"><span class="lbl">剩余</span><span class="val">'+remaining+' '+escapeHtml(g.unit)+'</span></div>';
+  body+='<div class="plan-modal-stat"><span class="lbl">截止日</span><span class="val">'+g.deadline+(daysLeft>=0?'（还剩 '+daysLeft+' 天）':'（已逾期 '+Math.abs(daysLeft)+' 天）')+'</span></div>';
+  body+='<div class="plan-modal-stat"><span class="lbl">当前每日建议</span><span class="val">'+suggested+' '+escapeHtml(g.unit)+'</span></div>';
+  body+='</div>';
+  body+='<div class="form-group"><label>调整截止日期</label><input type="date" id="plan_deadline" value="'+g.deadline+'"></div>';
+  body+='<div class="form-group"><label>调整总量（选填，留空不修改）</label><input type="number" id="plan_total" placeholder="'+g.total+'" min="1"></div>';
+  body+='<div class="form-hint">调整后将重新计算每日建议量。</div>';
+  showModal({title:'调整计划',body:body,
+    footer:'<button class="btn btn-ghost btn-sm" onclick="hideModal()">取消</button><button class="btn btn-primary btn-sm" onclick="confirmAdjustPlan(\''+goalId+'\')">确认调整</button>'});
+}
+function confirmAdjustPlan(goalId){
+  const deadline=document.getElementById('plan_deadline').value;
+  const totalEl=document.getElementById('plan_total');
+  const total=totalEl.value?totalEl.value:null;
+  if(!deadline){showToast('请选择截止日期');return;}
+  adjustPlan(goalId,deadline,total);
+  hideModal();
+}
+
+// ===== CELEBRATION =====
+function showCelebration(){
+  const el=document.getElementById('celebration');
+  el.classList.remove('hidden');
+  const colors=['#7c3aed','#a855f7','#10b981','#f59e0b','#ef4444','#2563eb','#db2777','#ea580c'];
+  let html='';
+  for(let i=0;i<60;i++){
+    const left=Math.random()*100;
+    const delay=Math.random()*0.5;
+    const dur=2+Math.random()*1.5;
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    const w=6+Math.random()*6;
+    const h=20+Math.random()*16;
+    html+='<span style="left:'+left+'%;width:'+w+'px;height:'+h+'px;background:'+color+';animation-delay:'+delay+'s;animation-duration:'+dur+'s"></span>';
+  }
+  el.innerHTML=html;
+  setTimeout(()=>{el.classList.add('hidden');el.innerHTML='';},3500);
+}
+
+// ===== BACKUP BANNER =====
+function renderBackupBanner(){
+  const el=document.getElementById('backupBanner');
+  const total=getTotalRecords();
+  if(total>=20){
+    el.classList.remove('hidden');
+    el.innerHTML='<div class="bb-icon">'+ICONS.shield+'</div><div class="bb-text">数据已积累 <strong>'+total+' 条</strong>打卡记录，建议导出备份以防丢失。</div><button class="btn btn-primary btn-sm" onclick="exportJSON()">'+ICONS.download+'导出</button>';
+  }else{
+    el.classList.add('hidden');
+  }
+}
+
+// ===== NAV & TABS =====
+function renderNav(){
+  const items=[
+    {tab:'today',icon:ICONS.today,label:'今日'},
+    {tab:'kanban',icon:ICONS.kanban,label:'看板'},
+    {tab:'weekly',icon:ICONS.weekly,label:'周报'},
+    {tab:'settings',icon:ICONS.settings,label:'我的'}
+  ];
+  let html='';
+  items.forEach(it=>{
+    html+='<button class="nav-item'+(it.tab===currentTab?' active':'')+'" onclick="switchTab(\''+it.tab+'\')">'+it.icon+'<span>'+it.label+'</span></button>';
+  });
+  document.getElementById('sidebarNav').innerHTML=html;
+  document.getElementById('topnavTabs').innerHTML=html;
+  document.getElementById('bottomnav').innerHTML=html;
+}
+function switchTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  renderNav();
+  renderTab(tab);
+  window.scrollTo(0,0);
+}
+function renderTab(tab){
+  if(tab==='today')renderToday();
+  else if(tab==='kanban')renderKanban();
+  else if(tab==='weekly')renderWeekly();
+  else if(tab==='settings')renderSettings();
+}
+function renderAll(){
+  renderBackupBanner();
+  renderNav();
+  renderTab(currentTab);
+}
+
+// ===== PRESET DATA =====
+function loadPresetData(){
+  if(state.sampleLoaded)return;
+  const t=(o)=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+o);return fmtDate(d);};
+  state.goals=[
+    {id:'sample_g1',name:'背英语单词',unit:'个',total:2000,deadline:'2026-10-31',color:'#7c3aed',
+     obstacle:'下班太累不想背',countermeasure:'如果感觉累，我就先背5个再决定要不要继续',
+     createdAt:t(-14),isSample:true,records:[
+       {id:uid(),date:t(-14),amount:50,minutes:30,isBackfill:false},
+       {id:uid(),date:t(-13),amount:45,minutes:25,isBackfill:false},
+       {id:uid(),date:t(-12),amount:55,minutes:35,isBackfill:false},
+       {id:uid(),date:t(-11),amount:40,minutes:null,isBackfill:false},
+       {id:uid(),date:t(-10),amount:50,minutes:30,isBackfill:false},
+       {id:uid(),date:t(-9),amount:45,minutes:28,isBackfill:false},
+       {id:uid(),date:t(-8),amount:50,minutes:30,isBackfill:false},
+       {id:uid(),date:t(-7),amount:55,minutes:null,isBackfill:false},
+       {id:uid(),date:t(-6),amount:50,minutes:30,isBackfill:false},
+       {id:uid(),date:t(-5),amount:40,minutes:25,isBackfill:false},
+       {id:uid(),date:t(-3),amount:60,minutes:35,isBackfill:false},
+       {id:uid(),date:t(-2),amount:45,minutes:28,isBackfill:false}
+     ]},
+    {id:'sample_g2',name:'读《人类简史》',unit:'页',total:440,deadline:'2026-09-15',color:'#0d9488',
+     obstacle:'晚上容易刷手机忘了读',countermeasure:'如果到10点还没开始读，我就读5页而不是放弃',
+     createdAt:t(-10),isSample:true,records:[
+       {id:uid(),date:t(-10),amount:20,minutes:40,isBackfill:false},
+       {id:uid(),date:t(-9),amount:25,minutes:50,isBackfill:false},
+       {id:uid(),date:t(-8),amount:20,minutes:35,isBackfill:false},
+       {id:uid(),date:t(-7),amount:25,minutes:45,isBackfill:false},
+       {id:uid(),date:t(-6),amount:20,minutes:40,isBackfill:false},
+       {id:uid(),date:t(-5),amount:15,minutes:30,isBackfill:true}
+     ]},
+    {id:'sample_g3',name:'Python入门课',unit:'节',total:30,deadline:'2026-09-30',color:'#2563eb',
+     obstacle:'周末容易懈怠',countermeasure:'如果周末没动力，我就只看视频不做练习',
+     createdAt:t(-8),isSample:true,records:[
+       {id:uid(),date:t(-8),amount:1,minutes:45,isBackfill:false},
+       {id:uid(),date:t(-7),amount:1,minutes:50,isBackfill:false},
+       {id:uid(),date:t(-6),amount:1,minutes:40,isBackfill:false},
+       {id:uid(),date:t(-5),amount:1,minutes:35,isBackfill:false},
+       {id:uid(),date:t(-3),amount:1,minutes:45,isBackfill:false},
+       {id:uid(),date:t(-2),amount:1,minutes:30,isBackfill:false},
+       {id:uid(),date:t(-1),amount:1,minutes:40,isBackfill:false}
+     ]}
+  ];
+  state.sampleLoaded=true;
+  saveState();
+}
+
+// ===== INIT =====
+function init(){
+  loadState();
+  migrateState();
+  renderAll();
+  document.getElementById('importFile').addEventListener('change',handleImportFile);
+  // keyboard: ESC to close modal
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')hideModal();});
+}
+init();
+</script>
+</body>
+</html>
